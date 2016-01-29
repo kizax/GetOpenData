@@ -20,10 +20,7 @@ public class GetOpenData {
 
         try {
             String url = "http://data.taipei/tisv/VDDATA";
-
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpget = new HttpGet(url);
-            HttpResponse response = httpClient.execute(httpget);
+            HttpResponse response = HttpUtil.httpGet(url);
 
             InputStream inputStream = response.getEntity().getContent();
             GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream);
