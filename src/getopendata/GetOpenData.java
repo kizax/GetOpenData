@@ -2,6 +2,9 @@ package getopendata;
 
 import javax.xml.parsers.*;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -12,10 +15,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/**
- *
- * @author hunter
- */
 public class GetOpenData {
 
     public static void main(String[] args) throws ParserConfigurationException {
@@ -46,6 +45,21 @@ public class GetOpenData {
 
             Document doc = builder.parse(new StringBufferInputStream(xmlStr));
 
+            String exchangeTime = doc.getElementsByTagName("ExchangeTime").item(0)
+                    .getTextContent();
+
+            System.out.println(exchangeTime);
+
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss"); //2016/01/30T12:12:21
+
+            Date date = (Date) format.parse(exchangeTime);
+            
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //2016-01-15 00:00:00
+            String reportDate = format2.format(date);
+
+            System.out.println(reportDate);
+
             NodeList list = doc.getElementsByTagName("VDDevice");
 
             int a = list.getLength();
@@ -70,27 +84,33 @@ public class GetOpenData {
                     System.out.println("TotalOfLane: " + eElement.getElementsByTagName("TotalOfLane")
                             .item(0)
                             .getTextContent());
-                    System.out.println("LaneNO" + eElement.getElementsByTagName("LaneNO")
-                            .item(0)
+
+                    int laneNum = Integer.parseInt(eElement.getElementsByTagName("TotalOfLane").item(0)
                             .getTextContent());
-                    System.out.println("Volume: " + eElement.getElementsByTagName("Volume")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("AvgSpeed: " + eElement.getElementsByTagName("AvgSpeed")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("AvgOccupancy: " + eElement.getElementsByTagName("AvgOccupancy")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Svolume: " + eElement.getElementsByTagName("Svolume")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Mvolume: " + eElement.getElementsByTagName("Mvolume")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Lvolume: " + eElement.getElementsByTagName("Lvolume")
-                            .item(0)
-                            .getTextContent());
+
+                    for (int i = 0; i < laneNum; i++) {
+                        System.out.println("LaneNO" + eElement.getElementsByTagName("LaneNO")
+                                .item(i)
+                                .getTextContent());
+                        System.out.println("Volume: " + eElement.getElementsByTagName("Volume")
+                                .item(i)
+                                .getTextContent());
+                        System.out.println("AvgSpeed: " + eElement.getElementsByTagName("AvgSpeed")
+                                .item(i)
+                                .getTextContent());
+                        System.out.println("AvgOccupancy: " + eElement.getElementsByTagName("AvgOccupancy")
+                                .item(i)
+                                .getTextContent());
+                        System.out.println("Svolume: " + eElement.getElementsByTagName("Svolume")
+                                .item(i)
+                                .getTextContent());
+                        System.out.println("Mvolume: " + eElement.getElementsByTagName("Mvolume")
+                                .item(i)
+                                .getTextContent());
+                        System.out.println("Lvolume: " + eElement.getElementsByTagName("Lvolume")
+                                .item(i)
+                                .getTextContent());
+                    }
 
                 }
             }
@@ -98,6 +118,8 @@ public class GetOpenData {
         } catch (IOException ex) {
             Logger.getLogger(GetOpenData.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
+            Logger.getLogger(GetOpenData.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(GetOpenData.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -11,10 +11,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-/**
- *
- * @author hunter
- */
+
 public class HttpUtil {
 
     public static HttpResponse httpGet(String url) throws IOException {
