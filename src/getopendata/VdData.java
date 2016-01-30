@@ -5,24 +5,39 @@
  */
 package getopendata;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author kizax
  */
 public class VdData {
 
-    private String deviceID;
-    private String time;
-    private int laneNO;
-    private double volume;
-    private double avgSpeed;
-    private double avgOccupancy;
-    private double sVolume;
-    private double mVolume;
-    private double lVolume;
+    private final String deviceID;
+    private final Date exchangeTime;
+    private final int laneNO;
+    private final double volume;
+    private final double avgSpeed;
+    private final double avgOccupancy;
+    private final double sVolume;
+    private final double mVolume;
+    private final double lVolume;
 
-    
-    
+    public VdData(String deviceID, Date exchangeTime, int laneNO, double volume, double avgSpeed, double avgOccupancy, double sVolume, double mVolume, double lVolume) {
+
+        this.deviceID = deviceID;
+        this.exchangeTime = exchangeTime;
+        this.laneNO = laneNO;
+        this.volume = volume;
+        this.avgSpeed = avgSpeed;
+        this.avgOccupancy = avgOccupancy;
+        this.sVolume = sVolume;
+        this.mVolume = mVolume;
+        this.lVolume = lVolume;
+
+    }
+
     public String getMovementListStr() {
         String movementListStr = null;
 //
@@ -92,6 +107,19 @@ public class VdData {
      */
     public double getlVolume() {
         return lVolume;
+    }
+
+    /**
+     * @return the dateTime
+     */
+    public Date getDateTime() {
+        return exchangeTime;
+    }
+
+    private String getTimeStr() {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //2016-01-15 00:00:00
+        String timeStr = timeFormat.format(exchangeTime);
+        return timeStr;
     }
 
 }
