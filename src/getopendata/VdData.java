@@ -38,19 +38,10 @@ public class VdData {
 
     }
 
-    public String getMovementListStr() {
-        String movementListStr = null;
-//
-//        int movementListCount = 0;
-//        for (String m : movementList) {
-//            movementListCount++;
-//            movementListStr += m;
-//            if (movementListCount != movementList.size()) {
-//                movementListStr += ", ";
-//            }
-//        }
-
-        return movementListStr;
+    @Override
+    public String toString() {
+        String vdDataStr = String.format("%1$s, %2$s, %3$d, %4$.0f, %5$.2f, %6$.2f, %7$.0f, %8$.0f, %9$.0f", deviceID, this.getTimeStr(), laneNO, volume, avgSpeed, avgOccupancy, sVolume, mVolume, lVolume);
+        return vdDataStr;
     }
 
     /**
