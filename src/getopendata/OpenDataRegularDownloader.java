@@ -24,6 +24,7 @@ public class OpenDataRegularDownloader {
             if (stopSign == 12345) {
                 timer.cancel();
                 System.out.println(String.format("%1$s\tThe timer stop.", TimestampUtil.getTimestampStr()));
+                break;
             }
         }
 
