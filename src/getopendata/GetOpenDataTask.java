@@ -6,11 +6,14 @@
 package getopendata;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,20 +62,26 @@ public class GetOpenDataTask extends TimerTask {
             String csvFileName = String.format("./record/vddata%1$s.csv", fileTimestamp);
             System.out.println(String.format("%1$s\tNow start writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
 
-            File csvDataPath = new File(csvFileName);
+            File csvDataFile = new File(csvFileName);
 
-            if (!csvDataPath.getParentFile().exists()) {
-                csvDataPath.getParentFile().mkdirs();
+            if (!csvDataFile.getParentFile().exists()) {
+                csvDataFile.getParentFile().mkdirs();
             }
-            csvDataPath.createNewFile();
 
-            FileWriter csvFileWriter = new FileWriter(csvDataPath, true);
+            FileWriter csvFileWriter;
+            if (!csvDataFile.exists()) {
+                csvDataFile.createNewFile();
+                csvFileWriter = new FileWriter(csvDataFile, true);
+                writeCsvFile(csvFileWriter, "DeviceID, ExchangeTime, LaneNO, Volume, AvgSpeed, AvgOccupancy, Svolume, Mvolume, Lvolume");
+            } else {
+                csvFileWriter = new FileWriter(csvDataFile, true);
+            }
+
             vdDataList.stream().forEach((vdData) -> {
                 writeCsvFile(csvFileWriter, vdData.toString());
             });
-            
+
             System.out.println(String.format("%1$s\tSuccessfully writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
-            
 
         } catch (IOException ex) {
             Logger.getLogger(OpenDataRegularDownloader.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,5 +99,5 @@ public class GetOpenDataTask extends TimerTask {
         WriterThread writerThread = new WriterThread(csvFileWriter, record);
         writerThread.start();
     }
-    
+
 }

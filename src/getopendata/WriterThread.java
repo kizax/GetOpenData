@@ -9,12 +9,13 @@ package getopendata;
  *
  * @author kizax
  */
-
-
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class WriterThread extends Thread {
+
     private final String record;
     private final FileWriter txtFileWriter;
 
@@ -27,8 +28,12 @@ public class WriterThread extends Thread {
     public void run() {
         super.run();
         try {
+
+            byte[] ansi = record.getBytes(StandardCharsets.UTF_8);
+            String recordAsciiStr = new String(ansi,StandardCharsets.ISO_8859_1);
+
             synchronized (txtFileWriter) {
-                txtFileWriter.write(record + "\n");
+                txtFileWriter.write(recordAsciiStr + "\n");
                 txtFileWriter.flush();
             }
         } catch (IOException e) {
