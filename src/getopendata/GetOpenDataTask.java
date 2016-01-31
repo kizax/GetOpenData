@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +31,8 @@ public class GetOpenDataTask extends TimerTask {
 
     @Override
     public void run() {
+
+        System.out.println(String.format("%1$s\tVD data is downloading now.", TimestampUtil.getTimestampStr()));
 
         try {
             String url = "http://data.taipei/tisv/VDDATA";
@@ -50,9 +54,11 @@ public class GetOpenDataTask extends TimerTask {
 
             ArrayList<VdData> vdDataList = VdDataXmlParser.getVdDataList(xmlStr);
 
-            System.out.println(vdDataList.size());
+            SimpleDateFormat fileTimestampFormat = new SimpleDateFormat("_yyyy-MM-dd");
+            String fileTimestamp = fileTimestampFormat.format(new Date());
+            String csvFileName = String.format("./record/vddata%1$s.csv", fileTimestamp);
+            System.out.println(String.format("%1$s\tNow start writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
 
-            String csvFileName = "./record/vddata.csv";
             File csvDataPath = new File(csvFileName);
 
             if (!csvDataPath.getParentFile().exists()) {
@@ -64,6 +70,9 @@ public class GetOpenDataTask extends TimerTask {
             vdDataList.stream().forEach((vdData) -> {
                 writeCsvFile(csvFileWriter, vdData.toString());
             });
+            
+            System.out.println(String.format("%1$s\tSuccessfully writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
+            
 
         } catch (IOException ex) {
             Logger.getLogger(OpenDataRegularDownloader.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,4 +90,5 @@ public class GetOpenDataTask extends TimerTask {
         WriterThread writerThread = new WriterThread(csvFileWriter, record);
         writerThread.start();
     }
+    
 }

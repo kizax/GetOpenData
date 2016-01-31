@@ -42,8 +42,8 @@ public class VdDataXmlParser {
 
         Date exchangeTime = (Date) exchangeTimeStrFormat.parse(exchangeTimeStr);
 
-
         NodeList nodeList = doc.getElementsByTagName("VDDevice");
+        System.out.println(String.format("%1$s\tNum of VD device: %2$d", TimestampUtil.getTimestampStr(), nodeList.getLength()));
 
         for (int nodeCount = 0; nodeCount < nodeList.getLength(); nodeCount++) {
 
@@ -102,6 +102,8 @@ public class VdDataXmlParser {
             }
         }
 
+        System.out.println(String.format("%1$s\tNum of data rows: %2$d", TimestampUtil.getTimestampStr(), vdDataList.size()));
+        
         return vdDataList;
     }
 }
