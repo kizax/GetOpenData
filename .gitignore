@@ -13,3 +13,5 @@ nbactions.xml
 .nb-gradle/
 /record
 
+/JavaApplication4/nbproject/private/
+/dbsetting

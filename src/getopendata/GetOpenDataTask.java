@@ -6,14 +6,12 @@
 package getopendata;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,9 +75,11 @@ public class GetOpenDataTask extends TimerTask {
                 csvFileWriter = new FileWriter(csvDataFile, true);
             }
 
-            vdDataList.stream().forEach((vdData) -> {
+            VdDataDaoImpl vdDataDaoImpl = new VdDataDaoImpl();
+            for (VdData vdData : vdDataList) {
                 writeCsvFile(csvFileWriter, vdData.toString());
-            });
+                vdDataDaoImpl.add(vdData);
+            }
 
             System.out.println(String.format("%1$s\tSuccessfully writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
 
@@ -90,6 +90,8 @@ public class GetOpenDataTask extends TimerTask {
         } catch (ParseException ex) {
             Logger.getLogger(OpenDataRegularDownloader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParserConfigurationException ex) {
+            Logger.getLogger(GetOpenDataTask.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(GetOpenDataTask.class.getName()).log(Level.SEVERE, null, ex);
         }
 

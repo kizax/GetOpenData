@@ -40,21 +40,21 @@ public class VdData {
 
     @Override
     public String toString() {
-        String vdDataStr = String.format("%1$s, %2$s, %3$d, %4$.0f, %5$.2f, %6$.2f, %7$.0f, %8$.0f, %9$.0f", deviceID, this.getTimeStr(), laneNO, volume, avgSpeed, avgOccupancy, sVolume, mVolume, lVolume);
+        String vdDataStr = String.format("%1$s, %2$s, %3$d, %4$.0f, %5$.2f, %6$.2f, %7$.1f, %8$.1f, %9$.1f", deviceID, this.getTimeStr(), laneNO, volume, avgSpeed, avgOccupancy, sVolume, mVolume, lVolume);
         return vdDataStr;
     }
 
     /**
      * @return the deviceID
      */
-    public String getDeviceID() {
+    public String getDeviceId() {
         return deviceID;
     }
 
     /**
      * @return the laneNO
      */
-    public int getLaneNO() {
+    public int getLaneNo() {
         return laneNO;
     }
 
@@ -82,21 +82,21 @@ public class VdData {
     /**
      * @return the sVolume
      */
-    public double getsVolume() {
+    public double getSVolume() {
         return sVolume;
     }
 
     /**
      * @return the mVolume
      */
-    public double getmVolume() {
+    public double getMVolume() {
         return mVolume;
     }
 
     /**
      * @return the lVolume
      */
-    public double getlVolume() {
+    public double getLVolume() {
         return lVolume;
     }
 
@@ -107,7 +107,7 @@ public class VdData {
         return exchangeTime;
     }
 
-    private String getTimeStr() {
+    public String getTimeStr() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //2016-01-15 00:00:00
         String timeStr = timeFormat.format(exchangeTime);
         return timeStr;

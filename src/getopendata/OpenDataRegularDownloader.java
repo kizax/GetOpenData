@@ -9,7 +9,7 @@ public class OpenDataRegularDownloader {
 
     public static void main(String[] args) throws ParserConfigurationException {
 
-        int timeInterval = 1 * 60 * 1000; //in millissecond
+        int timeInterval = 5 * 60 * 1000; //in millissecond
 
         Date date = new Date();
         Timer timer = new Timer();
