@@ -6,11 +6,12 @@
 package getopendata;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
  * @author kizax
  */
 public interface VdDataDao {
-     public void add(VdData vdData) throws SQLException;
+     public void add(ArrayList<VdData> vdDataList) throws SQLException;
 }

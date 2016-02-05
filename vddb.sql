@@ -18,7 +18,7 @@ CREATE TABLE vddata (
  mvolume float(6,1),
  lvolume float(6,1),
  PRIMARY KEY (ID)
-);
+)ENGINE = MyISAM ;
 
 
 INSERT INTO vddata (deviceid,exchangetime,laneno,volume,avgspeed,avgoccupancy,svolume,mvolume,lvolume) VALUES ('V0120C0', '2016-02-03 20:56:53', 1, 105, 66.00, 7.00, 0, 101, 4);

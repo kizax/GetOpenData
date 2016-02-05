@@ -58,7 +58,7 @@ public class GetOpenDataTask extends TimerTask {
             SimpleDateFormat fileTimestampFormat = new SimpleDateFormat("_yyyy-MM-dd");
             String fileTimestamp = fileTimestampFormat.format(new Date());
             String csvFileName = String.format("./record/vddata%1$s.csv", fileTimestamp);
-            System.out.println(String.format("%1$s\tNow start writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
+            System.out.println(String.format("%1$s\tNow start writing data into csv file <%2$s> and database", TimestampUtil.getTimestampStr(), csvFileName));
 
             File csvDataFile = new File(csvFileName);
 
@@ -76,9 +76,11 @@ public class GetOpenDataTask extends TimerTask {
             }
 
             VdDataDaoImpl vdDataDaoImpl = new VdDataDaoImpl();
+            vdDataDaoImpl.add(vdDataList);
+            System.out.println(String.format("%1$s\tSuccessfully writing data into database", TimestampUtil.getTimestampStr()));
+            
             for (VdData vdData : vdDataList) {
                 writeCsvFile(csvFileWriter, vdData.toString());
-                vdDataDaoImpl.add(vdData);
             }
 
             System.out.println(String.format("%1$s\tSuccessfully writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
