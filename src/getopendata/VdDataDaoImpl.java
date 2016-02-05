@@ -19,7 +19,7 @@ public class VdDataDaoImpl implements VdDataDao {
     public void add(VdData vdData) throws SQLException {
       Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String sql = "INSERT INTO vddata VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO vddata (deviceid,exchangetime,laneno,volume,avgspeed,avgoccupancy,svolume,mvolume,lvolume) VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             conn = DbUtils.getConnection();
             preparedStatement = conn.prepareStatement(sql);
