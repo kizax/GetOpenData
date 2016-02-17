@@ -13,13 +13,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class WriterThread extends Thread {
+public class WriteThread extends Thread {
 
     private final String record;
-    private final FileWriter txtFileWriter;
+    private final FileWriter fileWriter;
 
-    public WriterThread(FileWriter fileWriter, String record) {
-        this.txtFileWriter = fileWriter;
+    public WriteThread(FileWriter fileWriter, String record) {
+        this.fileWriter = fileWriter;
         this.record = record;
     }
 
@@ -31,9 +31,9 @@ public class WriterThread extends Thread {
             byte[] ansi = record.getBytes(StandardCharsets.UTF_8);
             String recordAsciiStr = new String(ansi,StandardCharsets.ISO_8859_1);
 
-            synchronized (txtFileWriter) {
-                txtFileWriter.write(recordAsciiStr + "\n");
-                txtFileWriter.flush();
+            synchronized (fileWriter) {
+                fileWriter.write(recordAsciiStr + "\n");
+                fileWriter.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();

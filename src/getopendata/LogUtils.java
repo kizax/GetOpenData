@@ -16,7 +16,7 @@ public class LogUtils {
 
     public static void log(FileWriter logFileWriter, TextArea logTextArea, String logStr) {
         logTextArea.appendText(logStr+"\n");
-        WriterThread writerThread = new WriterThread(logFileWriter, logStr);
+        WriteThread writerThread = new WriteThread(logFileWriter, logStr);
         writerThread.start();
     }
 }

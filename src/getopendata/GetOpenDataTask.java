@@ -44,10 +44,10 @@ public class GetOpenDataTask extends TimerTask {
 
         try {
 
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tVD data is downloading now.", TimestampUtil.getTimestampStr()));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tVD data is downloading now.", TimestampUtils.getTimestampStr()));
 
             String url = "http://data.taipei/tisv/VDDATA";
-            HttpResponse response = HttpUtil.httpGet(url);
+            HttpResponse response = HttpUtils.httpGet(url);
 
             InputStream inputStream = response.getEntity().getContent();
             GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream);
@@ -65,13 +65,13 @@ public class GetOpenDataTask extends TimerTask {
 
             ArrayList<VdData> vdDataList = VdDataXmlParser.getVdDataList(xmlStr);
 
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tNum of data rows: %2$d", TimestampUtil.getTimestampStr(), vdDataList.size()));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tNum of data rows: %2$d", TimestampUtils.getTimestampStr(), vdDataList.size()));
 
             SimpleDateFormat fileTimestampFormat = new SimpleDateFormat("_yyyy-MM-dd");
             String fileTimestamp = fileTimestampFormat.format(new Date());
             String csvFileName = String.format("./record/vddata%1$s.csv", fileTimestamp);
 
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tNow start writing data into csv file <%2$s> and database", TimestampUtil.getTimestampStr(), csvFileName));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tNow start writing data into csv file <%2$s> and database", TimestampUtils.getTimestampStr(), csvFileName));
 
             File csvDataFile = new File(csvFileName);
 
@@ -91,12 +91,12 @@ public class GetOpenDataTask extends TimerTask {
             VdDataDaoImpl vdDataDaoImpl = new VdDataDaoImpl();
             vdDataDaoImpl.add(vdDataList);
 
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tSuccessfully writing data into database", TimestampUtil.getTimestampStr()));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tSuccessfully writing data into database", TimestampUtils.getTimestampStr()));
 
             for (VdData vdData : vdDataList) {
                 writeCsvFile(csvFileWriter, vdData.toString());
             }
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tSuccessfully writing data into csv file <%2$s>", TimestampUtil.getTimestampStr(), csvFileName));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tSuccessfully writing data into csv file <%2$s>", TimestampUtils.getTimestampStr(), csvFileName));
 
         } catch (IOException ex) {
             Logger.getLogger(OpenDataRegularDownloader.class.getName()).log(Level.SEVERE, null, ex);
@@ -113,7 +113,7 @@ public class GetOpenDataTask extends TimerTask {
     }
 
     private void writeCsvFile(FileWriter csvFileWriter, String record) {
-        WriterThread writerThread = new WriterThread(csvFileWriter, record);
+        WriteThread writerThread = new WriteThread(csvFileWriter, record);
         writerThread.start();
     }
 

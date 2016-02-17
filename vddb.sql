@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS vddata;
 CREATE TABLE vddata (
  ID int NOT NULL AUTO_INCREMENT,
  deviceid VARCHAR(10),
- exchangetime VARCHAR(20),
+ exchangetime datetime,
  laneno INT,
  volume float(6,1),
  avgspeed float(7,2),

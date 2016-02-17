@@ -64,9 +64,9 @@ public class FXMLController implements Initializable {
             Date date = new Date();
             timer = new Timer();
 
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tStart VD Open Data Regular Downloader!", TimestampUtil.getTimestampStr()));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tStart VD Open Data Regular Downloader!", TimestampUtils.getTimestampStr()));
 
-            timer.schedule(new GetOpenDataTask(logFileWriter, logTextArea), date, timeInterval);
+            timer.scheduleAtFixedRate(new GetOpenDataTask(logFileWriter, logTextArea), date, timeInterval);
 
             isStarted = true;
             startButton.setStyle("-fx-background-color: #cc0639;");
@@ -75,7 +75,7 @@ public class FXMLController implements Initializable {
         } else {
             timer.cancel();
 
-            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tThe timer stop.", TimestampUtil.getTimestampStr()));
+            LogUtils.log(logFileWriter, logTextArea, String.format("%1$s\tThe timer stop.", TimestampUtils.getTimestampStr()));
             
             isStarted = false;
             startButton.setStyle("-fx-background-color: #00984f;");
