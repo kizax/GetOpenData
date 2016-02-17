@@ -1,32 +1,36 @@
 package getopendata;
 
-import javax.xml.parsers.*;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.Timer;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-public class OpenDataRegularDownloader {
+public class OpenDataRegularDownloader extends Application {
 
-    public static void main(String[] args) throws ParserConfigurationException {
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
 
-        int timeInterval = 5 * 60 * 1000; //in millissecond
+        Scene scene = new Scene(root);
 
-        Date date = new Date();
-        Timer timer = new Timer();
+        stage.setScene(scene);
+        stage.show();
 
-        System.out.println(String.format("%1$s\tIf you want to stop timer, press 12345.", TimestampUtil.getTimestampStr()));
-        System.out.println(String.format("%1$s\tStart VD Open Data Regular Downloader!", TimestampUtil.getTimestampStr()));
-        timer.schedule(new GetOpenDataTask(), date, timeInterval);
-
-        while(true){
-            Scanner scanner = new Scanner(System.in);
-            int stopSign = scanner.nextInt();
-            if (stopSign == 12345) {
-                timer.cancel();
-                System.out.println(String.format("%1$s\tThe timer stop.", TimestampUtil.getTimestampStr()));
-                break;
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                System.out.println("Stage is closing");
+                stage.close();
             }
-        }
+        });
+
+    }
+
+    public static void main(String[] args) {
+
+        launch(args);
 
     }
 

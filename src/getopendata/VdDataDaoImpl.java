@@ -46,9 +46,11 @@ public class VdDataDaoImpl implements VdDataDao {
                 preparedStatement.setDouble(i * 9 + 9, vdData.getLVolume());
 
             }
-            preparedStatement.executeUpdate();
 
-            preparedStatement.executeUpdate();
+            if (vdDataList.size() > 0) {
+                preparedStatement.executeUpdate();
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Insertion fail");
